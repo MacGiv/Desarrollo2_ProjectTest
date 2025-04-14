@@ -9,7 +9,10 @@ public class InputReader : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private int _forceValue = 10;
     [SerializeField] private int _forceJump = 10;
+    [SerializeField] private float groundCheckDistance = 1.0f;
+    [SerializeField] private LayerMask groundLayer;
 
+    [SerializeField] private bool isGrounded = false;
     private Vector3 _moveVector = new Vector3();
     private bool _isJumpRequested;
 
@@ -64,6 +67,8 @@ public class InputReader : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Ray ray = new Ray(transform.position, Vector3.down);
+        isGrounded = Physics.Raycast(ray, groundCheckDistance, groundLayer);
         //rb.AddForce(_moveVector * _forceValue * Time.fixedDeltaTime, ForceMode.Impulse);
         rb.AddForce(_moveVector * _forceValue, ForceMode.Force);
 
@@ -79,5 +84,11 @@ public class InputReader : MonoBehaviour
             */
         }
 
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = isGrounded ? Color.green : Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * groundCheckDistance);
     }
 }
