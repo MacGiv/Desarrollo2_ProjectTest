@@ -405,7 +405,7 @@ Transform:
   m_GameObject: {fileID: 550347631}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.79, z: 0}
+  m_LocalPosition: {x: 0, y: -0.4980001, z: 0}
   m_LocalScale: {x: 0.94697, y: 0.94697, z: 0.94697}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -513,7 +513,7 @@ Transform:
   m_GameObject: {fileID: 638957760}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.292, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -607,7 +607,7 @@ GameObject:
   - component: {fileID: 697143066}
   - component: {fileID: 697143065}
   - component: {fileID: 697143064}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -869,6 +869,19 @@ MonoBehaviour:
   rb: {fileID: 0}
   _forceValue: 150
   _forceJump: 50
+  groundCheckDistance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  jumpHoldForce: 2
+  jumpHoldDuration: 1
+  isGrounded: 0
+  _moveVector: {x: 0, y: 0, z: 0}
+  _isJumpRequested: 0
+  jumpCount: 0
+  maxJumpCount: 2
+  isJumpHeld: 0
+  jumpHoldTimer: 0
 --- !u!4 &1951848997
 Transform:
   m_ObjectHideFlags: 0
@@ -878,7 +891,7 @@ Transform:
   m_GameObject: {fileID: 1951848992}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.83, z: 0}
+  m_LocalPosition: {x: 0, y: 1.719, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

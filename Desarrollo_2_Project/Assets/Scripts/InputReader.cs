@@ -11,10 +11,15 @@ public class InputReader : MonoBehaviour
     [SerializeField] private int _forceJump = 10;
     [SerializeField] private float groundCheckDistance = 1.0f;
     [SerializeField] private LayerMask groundLayer;
-
+    [SerializeField] private float jumpHoldForce = 2f;
+    [SerializeField] private float jumpHoldDuration = 0.2f;
     [SerializeField] private bool isGrounded = false;
-    private Vector3 _moveVector = new Vector3();
-    private bool _isJumpRequested;
+    [SerializeField] private Vector3 _moveVector = new Vector3();
+    [SerializeField] private bool _isJumpRequested;
+    [SerializeField] private int jumpCount = 0;
+    [SerializeField] private int maxJumpCount = 2;
+    [SerializeField] private bool isJumpHeld = false;
+    [SerializeField] private float jumpHoldTimer = 0f;
 
     private void OnEnable()
     {
@@ -24,14 +29,17 @@ public class InputReader : MonoBehaviour
         moveAction.action.performed += HandleMoveInput;
         moveAction.action.canceled += HandleMoveInput;
 
-        jumpAction.action.started += HandleJumpInput;
+        jumpAction.action.started += StartJump;
+        jumpAction.action.canceled += StopJump;
     }
 
+    private void Update()
+    {
+        //gameObject.GetComponent<Transform>().position += _moveVector * _forceValue * Time.deltaTime; 
+    }
 
     private void HandleMoveInput(InputAction.CallbackContext ctx)
-    {
-        string state = "";
-        
+    {        
         _moveVector.x = ctx.ReadValue<Vector2>().x;
         _moveVector.z = ctx.ReadValue<Vector2>().y;
 
@@ -55,35 +63,47 @@ public class InputReader : MonoBehaviour
 
     }
 
-    private void HandleJumpInput(InputAction.CallbackContext ctx)
-    {
-        _isJumpRequested = true;
-    }
-
-    private void Update()
-    {
-        //gameObject.GetComponent<Transform>().position += _moveVector * _forceValue * Time.deltaTime; 
-    }
 
     private void FixedUpdate()
     {
+        // Ground check
         Ray ray = new Ray(transform.position, Vector3.down);
         isGrounded = Physics.Raycast(ray, groundCheckDistance, groundLayer);
-        //rb.AddForce(_moveVector * _forceValue * Time.fixedDeltaTime, ForceMode.Impulse);
+        if (isGrounded && rb.linearVelocity.y <= -0.1f)
+        {
+            jumpCount = 0;
+        }
+        // Movement
         rb.AddForce(_moveVector * _forceValue, ForceMode.Force);
-
+        // Normal Jump
         if (_isJumpRequested)
         {
             _isJumpRequested = false;
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * _forceJump, ForceMode.Impulse);
-
-            /*
-            _moveVector.y += _forceJump;
-            rb.AddForce(_moveVector, ForceMode.Impulse);
-            _moveVector.y = 0;
-            */
         }
+        // Holded jump
+        if (isJumpHeld && (jumpHoldTimer < jumpHoldDuration))
+        {
+            rb.AddForce(Vector3.up * _forceJump, ForceMode.Force);
+            jumpHoldTimer += Time.fixedDeltaTime;
+        }
+    }
 
+    private void StartJump(InputAction.CallbackContext ctx)
+    {
+        if (jumpCount < maxJumpCount)
+        {
+            _isJumpRequested = true;
+            isJumpHeld = true;
+            jumpHoldTimer = 0f;
+            jumpCount++;
+        }
+    }
+
+    private void StopJump(InputAction.CallbackContext ctx)
+    {
+        isJumpHeld = false;
     }
 
     private void OnDrawGizmos()
