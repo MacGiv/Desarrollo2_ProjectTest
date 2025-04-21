@@ -64,7 +64,6 @@ public class Character : MonoBehaviour
 
     private void GroundCheck()
     {
-        // Chequea si estamos tocando el suelo
         isGrounded = Physics.CheckSphere(groundCheckPoint.position, groundCheckRadius, groundLayer);
         if (isGrounded)
         {
@@ -92,6 +91,7 @@ public class Character : MonoBehaviour
         camForward.Normalize();
         camRight.Normalize();
 
+        // Get movement + camera
         Vector3 moveDir = camForward * inputDir.z + camRight * inputDir.x;
 
         // Movement
@@ -105,7 +105,7 @@ public class Character : MonoBehaviour
         }
         else
         {
-            // Desaceleración suave
+            // Deacelerate¿?
             currentVelocity = Vector3.MoveTowards(currentVelocity, Vector3.zero, deceleration * Time.fixedDeltaTime);
         }
 
