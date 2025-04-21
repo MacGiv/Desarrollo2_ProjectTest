@@ -11,7 +11,7 @@ public class InputReader : MonoBehaviour
     [SerializeField] private int _forceJump = 10;
     [SerializeField] private float groundCheckDistance = 1.0f;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float jumpHoldForce = 2f;
+    //[SerializeField] private float jumpHoldForce = 2f;
     [SerializeField] private float jumpHoldDuration = 0.2f;
     [SerializeField] private bool isGrounded = false;
     [SerializeField] private Vector3 _moveVector = new Vector3();

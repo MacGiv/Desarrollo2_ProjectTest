@@ -7,7 +7,7 @@ public class PlayerAnimatorController : MonoBehaviour
     public bool Grounded { get; set; }
 
     [Tooltip("Useful for rough ground")]
-    public float GroundedOffset = -0.14f;
+    public float GroundedOffset = -0.05f;
 
     [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
     public float GroundedRadius = 0.28f;

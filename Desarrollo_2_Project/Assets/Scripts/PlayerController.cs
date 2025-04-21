@@ -1,37 +1,46 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.TextCore.Text;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Character _character;
-    [SerializeField] private InputActionReference _moveAction;
-    [SerializeField] private float _speed;
-    [SerializeField] private float _force;
+    [SerializeField] private Character character;
+    [SerializeField] private InputActionReference moveAction;
+    [SerializeField] private InputActionReference jumpAction;
 
     private void OnEnable()
     {
-        if (_moveAction == null)
-        {
-            return;
-        }
-        _moveAction.action.performed += OnMove;
+        moveAction.action.Enable();
+        jumpAction.action.Enable();
     }
 
     private void OnDisable()
     {
-        _moveAction.action.performed -= OnMove;
+        moveAction.action.Disable();
+        jumpAction.action.Disable();
     }
 
-    private void OnMove(InputAction.CallbackContext obj)
+    private void Start()
     {
-        //var request = new ForceRequest();
-        //request.mode = ForceMode.Force;
-        //var horizontalInput = obj.ReadValue<Vector2>();
-        //request.direction = obj.ReadValue<Vector2>(); new Vector3(horizontalInput.x, 0, horizontalInput.y);
-        //request.speed = speed;
-        //request.force = force;
-        //character.RequestForce(request);
+        character = GetComponent<Character>();
     }
 
+    private void Update()
+    {
+        Vector2 input = moveAction.action.ReadValue<Vector2>();
+        character.SetMovementInput(input);
+
+        if (jumpAction.action.triggered)
+        {
+            character.RequestJump();
+        }
+
+        if (jumpAction.action.IsPressed())
+        {
+            character.HoldJump(true);
+        }
+        else
+        {
+            character.HoldJump(false);
+        }
+    }
 }
