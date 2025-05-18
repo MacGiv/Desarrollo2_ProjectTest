@@ -11,7 +11,6 @@ public class InputReader : MonoBehaviour
     [SerializeField] private int _forceJump = 10;
     [SerializeField] private float groundCheckDistance = 1.0f;
     [SerializeField] private LayerMask groundLayer;
-    //[SerializeField] private float jumpHoldForce = 2f;
     [SerializeField] private float jumpHoldDuration = 0.2f;
     [SerializeField] private bool isGrounded = false;
     [SerializeField] private Vector3 _moveVector = new Vector3();
@@ -35,32 +34,13 @@ public class InputReader : MonoBehaviour
 
     private void Update()
     {
-        //gameObject.GetComponent<Transform>().position += _moveVector * _forceValue * Time.deltaTime; 
+ 
     }
 
     private void HandleMoveInput(InputAction.CallbackContext ctx)
     {        
         _moveVector.x = ctx.ReadValue<Vector2>().x;
         _moveVector.z = ctx.ReadValue<Vector2>().y;
-
-        // DEBUG
-        // Debug.Log(state + ctx.ReadValue<Vector2>());
-        // if (ctx.started)
-        // {
-        //     state = "started: ";
-        // }
-        // else if (ctx.performed)
-        // {
-        //     state = "performed: ";
-        // 
-        // }
-        // else if (ctx.canceled)
-        // {
-        //     state = "canceled: ";
-        // }
-        // 
-        //END DEBUG
-
     }
 
 
